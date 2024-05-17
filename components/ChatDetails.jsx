@@ -7,10 +7,11 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Loader from "./Loader";
 import MessageBox from "./MessageBox";
+var ls = require("local-storage");
 
 const ChatDetails = ({ chatId }) => {
   const { data: session } = useSession();
-  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
+  const currentUser = session?.user || ls.get("user");
   const [loading, setLoading] = useState(true);
   const [chat, setChat] = useState({});
   const [otherMembers, setOtherMembers] = useState([]);

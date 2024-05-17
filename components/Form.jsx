@@ -4,7 +4,6 @@ import {
   LockOutlined,
   PersonOutline,
 } from "@mui/icons-material";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 // bellow hook keep watch the change of input and show error, nice
@@ -13,7 +12,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const Form = ({ type }) => {
-  const { data: session } = useSession();
 
   const {
     register,
@@ -52,9 +50,6 @@ const Form = ({ type }) => {
       });
       if (res.ok) {
         // console.log(res);
-
-        const currentUser = session?.user;
-        localStorage.setItem("user", JSON.stringify(currentUser));
 
         router.push("/chats");
       }

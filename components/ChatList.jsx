@@ -5,11 +5,12 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import ChatBox from "./ChatBox";
 import Loader from "./Loader";
+var ls = require("local-storage");
 
 const ChatList = ({ currentChatId }) => {
   const { data: session } = useSession();
 
-  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
+  const currentUser = session?.user || ls.get("user");
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");

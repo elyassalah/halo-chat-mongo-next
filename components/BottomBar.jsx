@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import { Logout } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+var ls = require("local-storage");
 
 const BottomBar = () => {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ const BottomBar = () => {
   };
 
   const { data: session } = useSession();
-  const user = session?.user || JSON.parse(localStorage.getItem("user"));
+  const user = session?.user || ls.get("user");
 
   return (
     <div className="bottom-bar">

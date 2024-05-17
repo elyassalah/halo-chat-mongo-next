@@ -4,11 +4,12 @@ import ChatList from "@components/ChatList";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
+var ls = require("local-storage");
 
 const ChatPage = () => {
   const { chatId } = useParams();
   const { data: session } = useSession();
-  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
+  const currentUser = session?.user || ls.get("user");
 
   const seenMessages = async () => {
     try {

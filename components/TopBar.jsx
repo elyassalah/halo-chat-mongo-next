@@ -3,16 +3,24 @@ import { Logout } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+var ls = require("local-storage");
 
 const TopBar = () => {
   const pathname = usePathname();
+  const [profileImage, setProfileImage] = useState("");
 
   const handleLogout = async () => {
     signOut({ callbackUrl: "/" });
   };
 
   const { data: session } = useSession();
-  const user = session?.user || JSON.parse(localStorage.getItem("user"));
+  const user = session?.user || ls.get("user");
+  useEffect(() => {
+    if (user) {
+      setProfileImage(user?.profileImage);
+    }
+  }, [user]);
   return (
     <div className="topbar">
       <Link href="/chats">
@@ -41,7 +49,7 @@ const TopBar = () => {
         />
         <Link href="/profile">
           <img
-            src={user?.profileImage || "/assets/person.jpg"}
+            src={profileImage || "/assets/person.jpg"}
             alt="profile"
             className="profilePhoto"
           />

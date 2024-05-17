@@ -1,17 +1,18 @@
 "use client";
 
+import { CheckCircle, RadioButtonUnchecked } from "@mui/icons-material";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
-import { CheckCircle, RadioButtonUnchecked } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+var ls = require("local-storage");
 
 const Contacts = () => {
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const { data: session } = useSession();
-  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
+  const currentUser = session?.user || ls.get("user");
 
   const getContacts = async () => {
     try {
