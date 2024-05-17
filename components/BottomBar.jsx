@@ -14,7 +14,7 @@ const BottomBar = () => {
   };
 
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.user || JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="bottom-bar">

@@ -11,7 +11,7 @@ const Contacts = () => {
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const { data: session } = useSession();
-  const currentUser = session?.user;
+  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
 
   const getContacts = async () => {
     try {

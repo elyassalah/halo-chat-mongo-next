@@ -1,6 +1,6 @@
 "use client";
-import ChatList from "@components/ChatList";
 import ChatDetails from "@components/ChatDetails";
+import ChatList from "@components/ChatList";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const ChatPage = () => {
   const { chatId } = useParams();
   const { data: session } = useSession();
-  const currentUser = session?.user;
+  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
 
   const seenMessages = async () => {
     try {
@@ -22,7 +22,7 @@ const ChatPage = () => {
         }),
       });
     } catch (error) {
-      console.log(error); 
+      console.log(error);
     }
   };
 

@@ -3,7 +3,6 @@ import { connectToDB } from "@mongodb";
 import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { redirect } from "next/navigation";
 
 const handler = NextAuth({
   providers: [
@@ -39,10 +38,11 @@ const handler = NextAuth({
       // bellow to combine the info in session and mongo
       // so when user online we have complete info
       session.user = { ...session.user, ...mongodbUser._doc };
+      
+
       return session;
     },
   },
-  
 });
 
 export { handler as GET, handler as POST };

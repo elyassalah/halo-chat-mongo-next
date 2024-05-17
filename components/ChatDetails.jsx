@@ -1,16 +1,16 @@
 "use client";
+import { pusherClient } from "@lib/pusher";
+import { AddPhotoAlternate } from "@mui/icons-material";
 import { useSession } from "next-auth/react";
+import { CldUploadButton } from "next-cloudinary";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Loader from "./Loader";
-import Link from "next/link";
-import { AddPhotoAlternate, Photo } from "@mui/icons-material";
-import { CldUploadButton } from "next-cloudinary";
 import MessageBox from "./MessageBox";
-import { pusherClient } from "@lib/pusher";
 
 const ChatDetails = ({ chatId }) => {
   const { data: session } = useSession();
-  const currentUser = session?.user;
+  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
   const [loading, setLoading] = useState(true);
   const [chat, setChat] = useState({});
   const [otherMembers, setOtherMembers] = useState([]);
@@ -43,22 +43,24 @@ const ChatDetails = ({ chatId }) => {
 
   const sendText = async () => {
     try {
-      console.log(text);
-      console.log(currentUser._id);
-      console.log(chatId);
-      const response = await fetch("/api/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chatId,
-          currentUserId: currentUser?._id,
-          text,
-        }),
-      });
-      if (response.ok) {
-        setText("");
+      if (text !== "") {
+        // console.log(text);
+        // console.log(currentUser._id);
+        // console.log(chatId);
+        const response = await fetch("/api/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId,
+            currentUserId: currentUser?._id,
+            text,
+          }),
+        });
+        if (response.ok) {
+          setText("");
+        }
       }
     } catch (error) {
       console.log(error);

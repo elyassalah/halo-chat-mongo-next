@@ -1,14 +1,15 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import Loader from "./Loader";
-import ChatBox from "./ChatBox";
 import { pusherClient } from "@lib/pusher";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import ChatBox from "./ChatBox";
+import Loader from "./Loader";
 
 const ChatList = ({ currentChatId }) => {
   const { data: session } = useSession();
-  const currentUser = session?.user;
+
+  const currentUser = session?.user || JSON.parse(localStorage.getItem("user"));
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -71,7 +72,6 @@ const ChatList = ({ currentChatId }) => {
         pusherClient.unsubscribe(currentUser._id);
         pusherClient.unbind("update-chat", handleChatUpdate);
         pusherClient.unbind("new-chat", handleNewChat);
-
       };
     }
   }, [currentUser]);

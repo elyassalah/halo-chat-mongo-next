@@ -10,7 +10,7 @@ const Profile = () => {
   // useSession its take time to load so we need to use loading or useEffect
   //   and add reset to form state
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.user || JSON.parse(localStorage.getItem("user"));
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {

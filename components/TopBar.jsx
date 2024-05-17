@@ -3,7 +3,6 @@ import { Logout } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 
 const TopBar = () => {
   const pathname = usePathname();
@@ -13,7 +12,7 @@ const TopBar = () => {
   };
 
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.user || JSON.parse(localStorage.getItem("user"));
   return (
     <div className="topbar">
       <Link href="/chats">

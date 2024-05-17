@@ -4,16 +4,17 @@ import {
   LockOutlined,
   PersonOutline,
 } from "@mui/icons-material";
-import Image from "next/image";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
 // bellow hook keep watch the change of input and show error, nice
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
 
 const Form = ({ type }) => {
+  const { data: session } = useSession();
+
   const {
     register,
     handleSubmit,
@@ -32,6 +33,7 @@ const Form = ({ type }) => {
         body: JSON.stringify(data),
       });
       if (res.ok) {
+        // console.log(res);
         router.push("/");
       }
       if (res.error) {
@@ -49,6 +51,11 @@ const Form = ({ type }) => {
         redirect: false,
       });
       if (res.ok) {
+        // console.log(res);
+
+        const currentUser = session?.user;
+        localStorage.setItem("user", JSON.stringify(currentUser));
+
         router.push("/chats");
       }
       if (res.error) {
